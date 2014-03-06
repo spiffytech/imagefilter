@@ -57,6 +57,8 @@
                 if(e.which == 13) {  // return key
                     jQuery.get("/delete", {"file": file});
                 //} else if(e.which == 32) {  // spacebar
+                } else {
+                    jQuery.get("/save", {"file": file});
                 }
                 change_file();
             });
