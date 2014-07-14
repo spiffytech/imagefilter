@@ -27,9 +27,10 @@ os.symlink(dir_, imgdir)
 
 @app.route("/")
 def index():
-    files = os.listdir(imgdir)
-    to_delete = filter(lambda f: get_img_size(os.path.join(dir_, f))[0] < 1280 or get_img_size(os.path.join(dir_, f))[1] < 720, files)
-    map(os.remove, (os.path.join(imgdir, f) for f in to_delete))
+    files = [os.path.join(dir_, f) for f in os.listdir(imgdir)]
+    img_sizes = map(lambda f: (f, get_img_size(f)), files)
+    to_delete = filter(lambda f: f[1][0] < 1280 or f[1][1] < 720 or f[1][0] < f[1][1], img_sizes)
+    map(os.remove, (os.path.join(imgdir, f[0]) for f in to_delete))
 
     files = os.listdir(imgdir)
     files = flask.Markup(json.dumps(files))
