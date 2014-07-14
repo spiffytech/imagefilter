@@ -45,10 +45,18 @@
                 if(files.length == 0) {
                     return;
                 }
-
                 file = files.pop();
-                jQuery("#image").attr("src", "/static/images/" + file);
-                jQuery("#imgcount").text(files.length);
+
+                jQuery.get("/check_hash", {"file": file}, function(r) {
+                    if(r != "None") {
+                        //alert("Skipping " + file);
+                        jQuery.get("/delete", {"file": file});
+                        return change_file();
+                    }
+
+                    jQuery("#image").attr("src", "/static/images/" + file);
+                    jQuery("#imgcount").text(files.length);
+                });
             }
 
             change_file();
