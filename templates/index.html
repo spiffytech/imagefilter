@@ -21,9 +21,10 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div style="background-color: white; opacity: 0.75;">
+        <div style="background-color: white; opacity: 0.85;">
             <div style="float: left;">Enter = delete, space = save || </div>
             <div id="imgcount"></div>
+            <div id="loading_msg"></div>
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -81,7 +82,11 @@
                     preloaded.pop();
                 }
                 for(i=preloaded.length; i < n; i++) {
+                    jQuery('#loading_msg').text('loading...');
                     var img = new Image()
+                    img.onload = function() {
+                        jQuery('#loading_msg').text('');
+                    }
                     img.src = "/static/images/" + files[files.length - i];
                     preloaded.unshift(img);
                 }
